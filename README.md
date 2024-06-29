@@ -1,2 +1,3 @@
 # Scroll-Reveal
-Scroll to reveal with animations
+Scroll to reveal with animations using Tailwindcss and Js
+created by Drhex
