@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Reveal Effects</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+     .reveal {
+     opacity: 0;
+    /*  transform: translateX(-50%); */
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+      .reveal.blur {
+      opacity: 0; /* Initially hidden */
+       filter: blur(5px); 
+       transition: opacity 0.5s ease-in-out, 
+       filter 0.5s ease-in-out; 
+    }
+    .reveal.grayscale {
+      filter: grayscale(100%);
+ }
+    .reveal.active {
+      opacity: 100;
+      transform: translateX(0) translateY(0) scale(1) rotate(0) skewX(0);
+      filter: blur(0) grayscale(0);
+    }
+    
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen m-0 p-0 ">
+  <div class="w-full overflow-x-hidden mt-6 py-20">
+      
+        <h2 class="text-center p-4 font-bold text-lg">Free Scroll Reveal Templates with tailwindcss and Js By Drhex</h2>
+ <p class="p-4 font-bold"> Each effect are named as they first appear when revealed </p>
+    <div class="reveal -translate-x-1/2 bg-white p-10 shadow-lg mb-10">Content 1 (Slide In)</div>
+    <div class="reveal w-full bg-white p-10 shadow-lg mb-10">Content 2 (Fade In)</div>
+    <div class="reveal scale-90 bg-white p-10 shadow-lg mb-10">Content 3 (Expand)</div>
+    
+      <div class="reveal translate-x-1/2 bg-white p-10 shadow-lg mb-10">Content 4 (Slide Right)</div>
+      
+     
+   <div class="reveal translate-y-1/2 bg-white p-10 shadow-lg mb-10">Content 5 (Slide Up)</div>
+    <div class="reveal -translate-y-1/2 slide-down bg-white p-10 shadow-lg mb-10">Content 6 (Slide Down)</div>
+  <div class="reveal scale-50 bg-white p-10 shadow-lg mb-10">Content 7 (Zoom In)</div>
+    <div class="reveal scale-150 bg-white p-10 shadow-lg mb-10">Content 8 (Zoom Out)</div>
+     <div class="reveal -rotate-45  bg-white p-10 shadow-lg mb-10">Content 9 (Rotate)</div>
+     <div class="reveal -rotate-45 scale-50 bg-white p-10 shadow-lg mb-10">Content 10 (Rotate Scale)</div>
+    <div class="reveal skew-y-12 bg-white p-10 shadow-lg mb-10">Content 11 (Skew)</div>
+    <div class="reveal blur bg-white p-10 shadow-lg mb-10">Content 12 (Blur)</div>
+    <div class="reveal grayscale bg-white p-10 shadow-lg mb-10">Content 13 (Grayscale)</div>
+   <!-- Additional content to allow scrolling -->
+    <div class="bg-white p-10 shadow-lg mb-10">Nothing here</div>
+    <div class="bg-white p-10 shadow-lg mb-10">Nothing here</div>
+    <div class="bg-white p-10 shadow-lg mb-10">Nothing 3
+    here</div>
+     <div class="bg-white p-10 shadow-lg mb-10">Nothing here</div>
+    <div class="bg-white p-10 shadow-lg mb-10">Nothing here</div>
+    <div class="bg-white p-10 shadow-lg mb-10">Nothing here</div>
+   
+  
+  </div>
+
+  <script>
+      
+      // revealAnimate.js
+    document.addEventListener('DOMContentLoaded', function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      const throttleInterval = 150;
+      let timeout;
+
+      const throttle = (callback, limit) => {
+        return function() {
+          const context = this;
+          const args = arguments;
+          if (!timeout) {
+            timeout = setTimeout(() => {
+              callback.apply(context, args);
+              timeout = null;
+            }, limit);
+          }
+        };
+      };
+
+      const isElementVisible = (element, offset = 150) => {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+        return (
+          rect.top <= windowHeight - offset &&
+          rect.left <= windowWidth &&
+          rect.bottom >= 0 + offset &&
+          rect.right >= 0
+        );
+      };
+
+    const revealOnScroll = () => {
+  revealElements.forEach(element => {
+    if (isElementVisible(element)) {
+      // Element is visible
+      element.classList.add('active');
+    } else {
+      // Element is not visible
+      element.classList.remove('active');
+     
+    }
+  });
+};
+
+      const throttledReveal = throttle(revealOnScroll, throttleInterval);
+
+      window.addEventListener('scroll', throttledReveal);
+      window.addEventListener('resize', throttledReveal);
+
+      // Initial check
+      throttledReveal();
+    });
+  </script>
+</body>
+</html>
